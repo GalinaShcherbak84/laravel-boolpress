@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h1>OUR PODTS</h1>
+        <h1>OUR POSTS</h1>
         <table class="table">
             <thead>
                 <tr>
@@ -16,7 +16,9 @@
                     <tr>
                         <td>{{$post->id}}</td>
                         <td>{{$post->title}}</td>
-                        <td>SHOW</td>
+                        <td>
+                            <a class="btn btn-success" href="{{route('admin.posts.show', $post->id)}}">SHOW</a>
+                        </td>
                         <td>EDIT</td>
                         <td>DELETE</td>
                     </tr>
