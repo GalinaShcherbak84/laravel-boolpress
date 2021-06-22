@@ -34,6 +34,24 @@
                             <h4 class="mt-3">{{$message}}</h4>
                         @enderror
                     </div>
+                    <div class="mb-3">
+                        <label for="category_id" class="form-label">Category*</label>
+                        <select name="category_id" id="category_id" class="form-control @error('category_id') is-invalid @enderror">
+                            <option value="">-- Select category --</option>
+                            @foreach ($categories as $category)
+                                <option value="{{$category->id}}"
+                                    @if ($category->id == old('category_id'))
+                                        
+                                        selected
+                                    @endif>
+                                    {{$category->name}} 
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('content')
+                            <h4 class="mt-3">{{$message}}</h4>
+                        @enderror
+                    </div>
                     <button type="submit" class="btn btn-primary">Create post</button>
                 </form>
             </div>

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use App\Post;
+use App\Category;
 
 class PostController extends Controller
 {
@@ -18,7 +19,10 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::all();
-        return view('admin.posts.index', compact('posts'));
+        $categories = Category::all();
+
+        return view('admin.posts.index', compact('posts', 'categories'));
+       
     }
 
     /**
@@ -28,7 +32,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.create');
+        $categories = Category::all();
+        return view('admin.posts.create', compact('categories'));
     }
 
     /**
@@ -43,6 +48,7 @@ class PostController extends Controller
         $request->validate([
             'title'=>'required|unique:posts|max:20',
             'content'=>'required',
+            'category_id'=>'nullable|exists:categories,id'
         ],[
             'required'=>'The :attribute is required!!!!!', //customize
             'unique'=>'The :attribute must be unique!!!!!' //customize
@@ -83,11 +89,12 @@ class PostController extends Controller
      */
     public function edit($id)
     {
+        $categories = Category::all();
         $post = Post::find($id);
         if (! $post) {
             abort(404);
         }
-        return view('admin.posts.edit', compact('post'));
+        return view('admin.posts.edit', compact('post', 'categories'));
     }
 
     /**
@@ -105,9 +112,10 @@ class PostController extends Controller
             'title'=>[
                 'required',
                 Rule::unique('posts')->ignore($id),
-                'max:255'
+                'max:255',
             ],
             'content'=>'required',
+            'category_id'=>'nullable|exists:categories,id'
         ],[
             'required'=>'The :attribute is required!!!!!', //customize
             'unique'=>'The :attribute must be unique!!!!!' //customize
