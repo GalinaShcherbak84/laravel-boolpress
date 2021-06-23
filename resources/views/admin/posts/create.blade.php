@@ -41,7 +41,6 @@
                             @foreach ($categories as $category)
                                 <option value="{{$category->id}}"
                                     @if ($category->id == old('category_id'))
-                                        
                                         selected
                                     @endif>
                                     {{$category->name}} 
@@ -51,6 +50,21 @@
                         @error('content')
                             <h4 class="mt-3">{{$message}}</h4>
                         @enderror
+                    </div>
+
+                    <h4>TAGS</h4>
+                    <div class="mb-3">
+                        @foreach ($tags as $tag)
+                            <span class="d-inline-block mr-3">
+                                <input type="checkbox" name="tags[]" id="tag{{$loop->iteration}}" value="{{$tag->id}}"
+                                @if (in_array($tag->id, old('tags',[])))
+                                    checked
+                                @endif >
+                                <label for="tag{{$loop->iteration}}">
+                                    {{$tag->name}}
+                                </label>
+                            </span>
+                        @endforeach
                     </div>
                     <button type="submit" class="btn btn-primary">Create post</button>
                 </form>
