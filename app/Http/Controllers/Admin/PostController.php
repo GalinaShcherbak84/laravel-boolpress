@@ -56,7 +56,6 @@ class PostController extends Controller
             'unique'=>'The :attribute must be unique!!!!!' //customize
         ]);
         $data = $request->all();
-        
         //gen slug
         $data['slug'] = Str::slug($data['title'], '-');
 
