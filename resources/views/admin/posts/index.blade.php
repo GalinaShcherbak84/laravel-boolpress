@@ -16,6 +16,7 @@
                     <th>ID</th>
                     <th>Title</th>
                     <th>Category</th>
+                    <th>Create</th>
                     <th colspan="3">Actions</th>
                 </tr>
             </thead>
@@ -29,6 +30,7 @@
                             {{$post->category->name}}
                             @endif
                         </td>
+                        <td>{{$post->created_at->format('d/m/i')}}</td>
                         <td>
                             <a class="btn btn-success" href="{{route('admin.posts.show', $post->id)}}">SHOW</a>
                         </td>

@@ -12,19 +12,27 @@
                      <a href="">Read more</a>
                  </article>
                  <section class="navigation">
-                     <button
+                    <button
                         v-show="pagination.current > 1"
                         @click="getPosts(pagination.current - 1)"
                      >
                          prev
-                     </button>
+                    </button>
+                    <button 
+                        v-for="i in pagination.last" 
+                        :key="`page-${i}`"
+                         @click="getPosts(i)"
+                         :class="{'active-page': i == pagination.current}"
 
-                     <button
+                    >
+                        {{i}}
+                    </button>
+                    <button
                         v-show="pagination.current < pagination.last"
                         @click="getPosts(pagination.current + 1)"
                      >
                          next
-                     </button>
+                    </button>
                  </section>
             </div>
         </main>
@@ -83,5 +91,11 @@ export default {
 @import '../sass/frontoffice/utilities';
     body{
         font-family: sans-serif;
+        .navigation{
+            margin-top: 20px;
+        }
+        .active-page{
+            background: dodgerblue;
+        }
     }
 </style>
