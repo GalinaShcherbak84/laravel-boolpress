@@ -4,7 +4,7 @@
         <article v-for="post in posts " :key ="post.id">
             <h2>{{post.title}}</h2>
             <div>{{formatDate(post.created_at)}}</div>
-            <a href="">Read more</a>
+            <router-link :to="{name:'post-detail', params: {slug: post.slug}}">Read more</router-link>
         </article>
         <section class="navigation">
         <button
@@ -51,7 +51,7 @@ export default {
             //get posts from API
             axios.get(`http://127.0.0.1:8000/api/posts?page=${page}`)
             .then(res =>{
-                console.log(res.data);
+                //console.log(res.data);
                 this.posts = res.data.data;
                 this.pagination = {
                     current: res.data.current_page,
@@ -81,5 +81,11 @@ export default {
 </script>
 
 <style lang="scss">
-   
+   .active-page{
+            background: lightblue;
+        }
+
+    .navigation{
+        margin-top: 20px;
+    }
 </style>

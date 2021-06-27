@@ -26,6 +26,9 @@ export default {
     header{
         background: lightblue;
         }
+        .active{
+            color:red;
+        }
     
     
 </style>
