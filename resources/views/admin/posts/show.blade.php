@@ -11,5 +11,12 @@
             <a href="{{route('admin.posts.edit', $post->id)}}">Edit post</a>
         </div>
         <div>{{ $post->content }}</div>
+        <div>
+            @if (count($post->tags)>0)
+                @foreach($post->tags as $tag)
+                    <span class="badge badge-primary">{{$tag->name}}</span>
+                @endforeach
+            @endif
+        </div>
     </div>
 @endsection
