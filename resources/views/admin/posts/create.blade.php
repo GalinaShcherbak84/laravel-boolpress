@@ -65,6 +65,9 @@
                                 </label>
                             </span>
                         @endforeach
+                        @error('tags')
+                            <h4 class="mt-3">{{$message}}</h4>
+                        @enderror
                     </div>
                     <button type="submit" class="btn btn-primary">Create post</button>
                 </form>

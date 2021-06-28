@@ -50,12 +50,15 @@ class PostController extends Controller
         $request->validate([
             'title'=>'required|unique:posts|max:20',
             'content'=>'required',
-            'category_id'=>'nullable|exists:categories,id'
+            'category_id'=>'nullable|exists:categories,id',
+            'tags'=>'nullable|exists:tags,id',
+
         ],[
             'required'=>'The :attribute is required!!!!!', //customize
             'unique'=>'The :attribute must be unique!!!!!' //customize
         ]);
         $data = $request->all();
+
         //gen slug
         $data['slug'] = Str::slug($data['title'], '-');
 
@@ -64,6 +67,12 @@ class PostController extends Controller
         $new_post->fill($data); //!!!!!fIllable
         //save new post
         $new_post->save();
+
+        //salva la relazione con tags in tabella pivot
+        if(array_key_exists('tags',$data)){
+            $new_post->tags()->attach($data['tags']);
+        }
+
         return redirect()->route('admin.posts.show', $new_post->id);
     }
 
@@ -92,10 +101,11 @@ class PostController extends Controller
     {
         $categories = Category::all();
         $post = Post::find($id);
+        $tags = Tag::all();
         if (! $post) {
             abort(404);
         }
-        return view('admin.posts.edit', compact('post', 'categories'));
+        return view('admin.posts.edit', compact('post', 'categories','tags'));
     }
 
     /**
@@ -116,7 +126,8 @@ class PostController extends Controller
                 'max:255',
             ],
             'content'=>'required',
-            'category_id'=>'nullable|exists:categories,id'
+            'category_id'=>'nullable|exists:categories,id',
+            'tags'=>'nullable|exists:tags,id'
         ],[
             'required'=>'The :attribute is required!!!!!', //customize
             'unique'=>'The :attribute must be unique!!!!!' //customize
@@ -132,6 +143,12 @@ class PostController extends Controller
 
         $post->update($data); // fillable
 
+        //aggiorna relazionetabella pivot
+        if(array_key_exists('tags',$data)){
+            $post->tags()->sync($data['tags']);
+        }else{
+            $post->tags()->detach();
+        }
         return redirect()->route('admin.posts.show', $post->id);
     }
 
